@@ -1,6 +1,6 @@
 #include<string>
 
-const std::string helpMsg="\nArguments are \n--daemon or -d to run as daemon\n--help for this menu\n--single or -s for test mode\n";
+const std::string helpMsg="\nArguments are \n--daemon or -d to run as daemon\n--help for this menu\n";
 
 const std::string noArgs="\nRunning as current user...\n";
 
