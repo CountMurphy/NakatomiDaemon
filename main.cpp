@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
     IRBlaster Ir;
     Ir.init();
     Ir.setBT();
+    sleep(5);
+    Ir.setPi();
     //set source switch pin
     //
     //start listeners/interrupts if thats a thing

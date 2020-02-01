@@ -20,6 +20,7 @@ void IRBlaster::setBT()
 
 void IRBlaster::setPi()
 {
+    IRsendCode(Line1Code);
     return;
 }
 
