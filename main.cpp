@@ -20,6 +20,20 @@ int main(int argc, char *argv[])
             return 1;
         }else if(arg=="--single" || arg=="-s"){
             std::cout<<"Running in non daemon mode"<<std::endl;
+        }else if(arg=="--btle"){
+            if(gpioInitialise()==PI_INIT_FAILED)
+                return 1;
+            IRBlaster IrTmp;
+            IrTmp.init();
+            IrTmp.setBT();
+            return 0;
+        }else if(arg=="--line1"){
+            if(gpioInitialise()==PI_INIT_FAILED)
+                return 1;
+            IRBlaster IrTmp;
+            IrTmp.init();
+            IrTmp.setPi();
+            return 0;
         }else{
             std::cout<<"\nUnknown argument. Please see --help\n"<<std::endl;
             return 1;
@@ -34,9 +48,8 @@ int main(int argc, char *argv[])
 
     IRBlaster Ir;
     Ir.init();
-    Ir.setBT();
-    sleep(5);
-    Ir.setPi();
+    //await knob turn to launch
+
     //set source switch pin
     //
     //start listeners/interrupts if thats a thing

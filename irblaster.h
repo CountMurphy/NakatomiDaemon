@@ -9,12 +9,9 @@ class IRBlaster
         void init();
         void setBT();
         void setPi();
-        unsigned long btCode=0b00001000111001110111000010001111;
-        unsigned long Line1Code=0b00001000111001110101000010101111;
     private:
-        void IRsendCode(unsigned long);
-        void IRcarrier(unsigned int);
-        short IRLEDpin=17;
+        short BTLE_LEDpin=17;
+        short Line1_LEDpin=27;
 };
 
 #endif
