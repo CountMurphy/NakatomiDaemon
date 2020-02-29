@@ -9,6 +9,13 @@
 
 int main(int argc, char *argv[])
 {
+    if(gpioInitialise()==PI_INIT_FAILED)
+    {
+        std::cout<<helpMsg<<std::endl;
+        return 1;
+    }
+    std::cout<<logo<<std::endl<<std::endl<<std::endl;
+
     if(argc > 1)
     {
         std::string arg = argv[1];
@@ -21,15 +28,11 @@ int main(int argc, char *argv[])
         }else if(arg=="--single" || arg=="-s"){
             std::cout<<"Running in non daemon mode"<<std::endl;
         }else if(arg=="--btle"){
-            if(gpioInitialise()==PI_INIT_FAILED)
-                return 1;
             IRBlaster IrTmp;
             IrTmp.init();
             IrTmp.setBT();
             return 0;
         }else if(arg=="--line1"){
-            if(gpioInitialise()==PI_INIT_FAILED)
-                return 1;
             IRBlaster IrTmp;
             IrTmp.init();
             IrTmp.setPi();
@@ -42,9 +45,6 @@ int main(int argc, char *argv[])
         std::cout<<noArgs<<std::endl;
     }
 
-    if(gpioInitialise()==PI_INIT_FAILED)
-        return 1;
-    std::cout<<logo<<std::endl<<std::endl<<std::endl;
 
     IRBlaster Ir;
     Ir.init();
