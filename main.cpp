@@ -5,6 +5,7 @@
 
 #include "strings.h"
 #include "irblaster.h"
+#include "display.h"
 
 
 int main(int argc, char *argv[])
@@ -48,6 +49,8 @@ int main(int argc, char *argv[])
 
     IRBlaster Ir;
     Ir.init();
+    Display display;
+    display.init();
     //await knob turn to launch
 
     //set source switch pin
