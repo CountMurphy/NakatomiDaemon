@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
     Ir.init();
     Display display;
     display.init();
+    while(1);
     //await knob turn to launch
 
     //set source switch pin
