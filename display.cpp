@@ -108,6 +108,18 @@ void Display::init()
     gpioWrite(15, 0); // Set low to start
 
 
+    //set 8 bit mode, 4 lines
+    gpioWrite(14, 0); // RS
+    gpioWrite(18, 0); //0
+    gpioWrite(23, 0); //1
+    gpioWrite(24, 0); //2
+    gpioWrite(25, 1); //3
+    gpioWrite(8, 1); //4
+    gpioWrite(7, 1); //5
+    gpioWrite(12, 0); //6
+    gpioWrite(16, 0); //7
+    latch();
+    
     //turn on display
     gpioWrite(14, 0); // RS
     gpioWrite(18, 0); //0
