@@ -5,6 +5,8 @@ class Display
     public:
         void SetRGB(int[]);
         void init();
+        void clear();
+        void penis();
     private:
         void latch();
         int presets[11][3]={
