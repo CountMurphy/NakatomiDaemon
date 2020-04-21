@@ -2,21 +2,8 @@
 #include <pigpio.h>
 #include <unistd.h>
 
-static void resetALL()
-{
 
-    gpioWrite(14, 0); // Set low to start
-    gpioWrite(18, 0); //0
-    gpioWrite(23, 0); //1
-    gpioWrite(24, 0); //2
-    gpioWrite(25, 0); //3
-    gpioWrite(8, 0); //4
-    gpioWrite(7, 0); //5
-    gpioWrite(12, 0); //6
-    gpioWrite(16, 0); //7
-}
-
-static void latch()
+void Display::latch()
 {
     gpioWrite(15, 1); // Set low to start
     usleep(20);
@@ -26,9 +13,9 @@ static void latch()
 
 void Display::init()
 {
-    gpioPWM(blueLed, 255);
-    gpioPWM(redLed, 0);
-    gpioPWM(greenLed, 197);
+
+    eColor color = firefly;
+    SetRGB(presets[color]);
 
     gpioSetMode(14, PI_OUTPUT);//RS
     gpioSetMode(15, PI_OUTPUT);//E
@@ -41,9 +28,6 @@ void Display::init()
     gpioSetMode(12, PI_OUTPUT);//Data 6
     gpioSetMode(16, PI_OUTPUT);//Data 7
     gpioWrite(15, 0); // Set low to start
-
-    resetALL();
-    //latch();
 
     //turn on display
     gpioWrite(14, 0); // RS
@@ -132,7 +116,10 @@ void Display::init()
 
 }
 
-void Display::SetRGB(int R,int G,int B)
+void Display::SetRGB(int preset[])
 {
+    gpioPWM(blueLed, preset[0]);
+    gpioPWM(redLed, preset[1]);
+    gpioPWM(greenLed, preset[2]);
     return;
 }

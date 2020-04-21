@@ -3,9 +3,10 @@
 class Display
 {
     public:
-        void SetRGB(int,int,int);
+        void SetRGB(int[]);
         void init();
     private:
+        void latch();
         int presets[11][3]={
             {100,0,0},//tron
             {0,0,255},//purple
@@ -19,6 +20,8 @@ class Display
             {255,255,0},//green
             {0,255,0}//bluegreen
         };
+
+        enum eColor{tron=0,purple=1,yellow=2,gold_tron=3,firefly=4,amber=5,off=6,blue=7, red=8,green=9,blue_green=10};
         int blueLed=22;
         int redLed=10;
         int greenLed=9;
