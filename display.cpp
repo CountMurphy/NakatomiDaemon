@@ -19,9 +19,9 @@ static void resetALL()
 static void latch()
 {
     gpioWrite(15, 1); // Set low to start
-    sleep(1);
+    usleep(20);
     gpioWrite(15, 0); // Set low to start
-    sleep(1);
+    usleep(20);
 }
 
 void Display::init()
