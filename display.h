@@ -7,6 +7,7 @@ class Display
         void init();
         void clear();
         void penis();
+        void setLine(int);
     private:
         void latch();
         int presets[11][3]={

@@ -25,6 +25,20 @@ void Display::clear()
     latch();
 }
 
+void Display::setLine(int line)
+{
+    gpioWrite(14, 0); // RS
+    gpioWrite(18, 0); //0
+    gpioWrite(23, 0); //1
+    gpioWrite(24, line==4 || line==3 ?1:0); //2
+    gpioWrite(25, 0); //3
+    gpioWrite(8, line==4 || line==3?1:0); //4
+    gpioWrite(7, 0); //5
+    gpioWrite(12, line==2 || line ==4? 1:0); //6
+    gpioWrite(16, 1); //7
+    latch();
+}
+
 void Display::penis()
 {
     //P
@@ -119,6 +133,29 @@ void Display::init()
     gpioWrite(12, 0); //6
     gpioWrite(16, 0); //7
     latch();
+    
+    //set scroll
+    //gpioWrite(14, 0); // RS
+    //gpioWrite(18, 1); //0
+    //gpioWrite(23, 1); //1 //if odd scrolling flip this
+    //gpioWrite(24, 1); //2
+    //gpioWrite(25, 0); //3
+    //gpioWrite(8, 0); //4
+    //gpioWrite(7, 0); //5
+    //gpioWrite(12, 0); //6
+    //gpioWrite(16, 0); //7
+    //latch();
+    
+    //set home
+    gpioWrite(14, 0); // RS
+    gpioWrite(18, 0); //0
+    gpioWrite(23, 1); //1
+    gpioWrite(24, 0); //2
+    gpioWrite(25, 0); //3
+    gpioWrite(8, 0); //4
+    gpioWrite(7, 0); //5
+    gpioWrite(12, 0); //6
+    gpioWrite(16, 0); //7
     
     //turn on display
     gpioWrite(14, 0); // RS
