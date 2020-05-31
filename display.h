@@ -1,15 +1,18 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
+#include <string>
+
 class Display
 {
     public:
         void SetRGB(int[]);
         void init();
         void clear();
-        void penis();
         void setLine(int);
+        void writeString(std::string);
     private:
         void latch();
+        void dictionary(char, int[]); //wtf, c++ cant return arrays? What is this the dark ages?
         int presets[11][3]={
             {100,0,0},//tron
             {0,0,255},//purple

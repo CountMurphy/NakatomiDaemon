@@ -51,12 +51,11 @@ int main(int argc, char *argv[])
     Ir.init();
     Display display;
     display.init();
+    display.clear();
     while(1)
     {
         sleep(1);
-        display.penis();
-        sleep(1);
-        display.clear();
+        display.writeString("penis");
     }
     //await knob turn to launch
 
