@@ -10,6 +10,7 @@ class Display
         void clear();
         void setLine(int);
         void writeString(std::string);
+        void writeBlockChar(int);
     private:
         void latch();
         void dictionary(char, int[]); //wtf, c++ cant return arrays? What is this the dark ages?

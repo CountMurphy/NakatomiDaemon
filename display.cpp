@@ -60,6 +60,23 @@ void Display::writeString(std::string word)
     }
 }
 
+void Display::writeBlockChar(int amount)
+{
+    for(int i = 1; i<=amount;i++)
+    {
+        gpioWrite(14, 1); // RS
+        gpioWrite(18, 1); //0
+        gpioWrite(23, 1); //1
+        gpioWrite(24, 1); //2
+        gpioWrite(25, 1); //3
+        gpioWrite(8, 1); //4
+        gpioWrite(7, 1); //5
+        gpioWrite(12, 1); //6
+        gpioWrite(16, 1); //7
+        latch();
+    }
+}
+
 void Display::init()
 {
 
@@ -143,6 +160,466 @@ void Display::dictionary(char character, int retVal[])
     //retVal is passed by ref because c++ is retarded
     switch(character)
     {
+        case ' ':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '/':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case ':':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case ';':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '=':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '-':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '+':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '*':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '&':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '\'':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '"':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '%':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '$':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '#':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '<':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '>':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '^':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case ',':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '{':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case '.':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case ']':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case '[':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case ')':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '(':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        //case '¥':
+        //    retVal[0] = 0;
+        //    retVal[1] = 0;
+        //    retVal[2] = 1;
+        //    retVal[3] = 1;
+        //    retVal[4] = 1;
+        //    retVal[5] = 0;
+        //    retVal[6] = 1;
+        //    retVal[7] = 0;
+        //    break;
+        case '@':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case '`':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case '!':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '0':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '1':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '2':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '3':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '4':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '5':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '6':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '7':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '8':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case '9':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
+            retVal[7] = 0;
+            break;
+        case 'A':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'a':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'B':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'b':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'c':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'C':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'D':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'd':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
         case 'e':
             retVal[0] = 1;
             retVal[1] = 0;
@@ -150,6 +627,76 @@ void Display::dictionary(char character, int retVal[])
             retVal[3] = 0;
             retVal[4] = 0;
             retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'E':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'F':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'f':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'g':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'G':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'h':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'H':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
             retVal[6] = 1;
             retVal[7] = 0;
             break;
@@ -163,6 +710,106 @@ void Display::dictionary(char character, int retVal[])
             retVal[6] = 1;
             retVal[7] = 0;
             break;
+        case 'I':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'j':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'J':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'k':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'K':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'l':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'L':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'm':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'M':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'N':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
         case 'n':
             retVal[0] = 0;
             retVal[1] = 1;
@@ -173,9 +820,79 @@ void Display::dictionary(char character, int retVal[])
             retVal[6] = 1;
             retVal[7] = 0;
             break;
+        case 'o':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'O':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 0;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'P':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
         case 'p':
             retVal[0] = 0;
             retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'Q':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'q':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'R':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'r':
+            retVal[0] = 0;
+            retVal[1] = 1;
             retVal[2] = 0;
             retVal[3] = 0;
             retVal[4] = 1;
@@ -191,6 +908,167 @@ void Display::dictionary(char character, int retVal[])
             retVal[4] = 1;
             retVal[5] = 1;
             retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'S':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 0;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'T':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 't':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'U':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'u':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'V':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'v':
+            retVal[0] = 0;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'w':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'W':
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 0;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'X':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'x':
+            retVal[0] = 0;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'y':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'Y':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'z':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case 'Z':
+            retVal[0] = 1;
+            retVal[1] = 0;
+            retVal[2] = 0;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 0;
+            retVal[6] = 1;
+            retVal[7] = 0;
+            break;
+        case '?':
+        default:
+            retVal[0] = 1;
+            retVal[1] = 1;
+            retVal[2] = 1;
+            retVal[3] = 1;
+            retVal[4] = 1;
+            retVal[5] = 1;
+            retVal[6] = 0;
             retVal[7] = 0;
             break;
     }
