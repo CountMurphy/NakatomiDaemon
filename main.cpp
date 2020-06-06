@@ -52,6 +52,13 @@ int main(int argc, char *argv[])
     Display display;
     display.init();
     display.clear();
+    sleep(1);
+    display.setLine(2);
+    display.writeString("       Sarif");
+    display.setLine(3);
+    display.writeString("     Industries");
+    sleep(5);
+    display.clear();
     while(1)
     {
         sleep(1);
