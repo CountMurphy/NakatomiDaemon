@@ -60,9 +60,9 @@ void Display::writeString(std::string word)
     }
 }
 
-void Display::writeBlockChar(int amount)
+void Display::writeBlockChar(short amount)
 {
-    for(int i = 1; i<=amount;i++)
+    for(short i = 1; i<=amount;i++)
     {
         gpioWrite(14, 1); // RS
         gpioWrite(18, 1); //0

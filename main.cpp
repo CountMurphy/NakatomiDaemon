@@ -6,6 +6,7 @@
 #include "strings.h"
 #include "irblaster.h"
 #include "display.h"
+#include "mpd.h"
 
 
 int main(int argc, char *argv[])
@@ -59,12 +60,30 @@ int main(int argc, char *argv[])
     display.writeString("     Industries");
     sleep(5);
     display.clear();
+
+    Mpd mpd;
     while(1)
     {
-        sleep(1);
-        display.writeString("penis");
+      Mpd::song songInfo = mpd.getSongInfo();
+      display.writeString(songInfo.title);
+      display.setLine(2);
+      display.writeString(songInfo.artist);
+      display.setLine(3);
+      display.writeString(songInfo.album);
+      short blockLevel=0;
+      short lastLoad = 0;
+      while(blockLevel!=20)
+      {
+          blockLevel = mpd.getPlayPercentBlock();
+          if(blockLevel<lastLoad)
+              break;
+          lastLoad=blockLevel;
+          display.setLine(4);
+          display.writeBlockChar(blockLevel);
+      }
+      display.clear();
     }
-    //await knob turn to launch
+    ////await knob turn to launch
 
     //set source switch pin
     //
