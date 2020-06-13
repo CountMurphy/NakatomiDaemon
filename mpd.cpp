@@ -25,6 +25,6 @@ short Mpd::getPlayPercentBlock()
     msong = mpd_run_current_song(conn);
     int length = mpd_song_get_duration(msong);
     mpd_response_finish(conn);
-    return ((int)((float)pos/((float)length)*100))/5;
+    return (((float)pos/(float)length)*100>=97) ? 20:((int)((float)pos/((float)length)*100))/5;
 }
 

@@ -64,24 +64,34 @@ int main(int argc, char *argv[])
     Mpd mpd;
     while(1)
     {
+      std::string lastSong;
       Mpd::song songInfo = mpd.getSongInfo();
       display.writeString(songInfo.title);
+      lastSong = songInfo.title;
       display.setLine(2);
       display.writeString(songInfo.artist);
       display.setLine(3);
       display.writeString(songInfo.album);
-      short blockLevel=0;
-      short lastLoad = 0;
-      while(blockLevel!=20)
+      short blockLevel=-1;
+      short lastLoad = -1;
+      while(true)
       {
           blockLevel = mpd.getPlayPercentBlock();
-          if(blockLevel<lastLoad)
+          if(blockLevel<lastLoad && blockLevel==0)
               break;
+          //if track changes at 0%, daemon fucks up
+          if(blockLevel==0)
+          {
+              songInfo = mpd.getSongInfo();
+              if(lastSong != songInfo.title)
+                  break;
+          }
           lastLoad=blockLevel;
           display.setLine(4);
           display.writeBlockChar(blockLevel);
       }
       display.clear();
+      sleep(1);
     }
     ////await knob turn to launch
 

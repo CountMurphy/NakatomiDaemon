@@ -45,6 +45,8 @@ void Display::writeString(std::string word)
     //get binary value
     for(unsigned int i = 0; i<word.length();i++)
     {
+        if(i==19)
+            break;
         int screenValues[8];
         dictionary(word[i], screenValues);
         gpioWrite(14, 1); // RS
