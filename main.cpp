@@ -19,7 +19,13 @@ static bool buttonDetect(int modes[])
     value = gpioRead(3); //color
     if (value != modes[1])
     {
-        modes[1]=value;
+        //modes[1]=value;
+        return true;
+    }
+    value = gpioRead(4); //source
+    if (value != modes[2])
+    {
+        modes[2]=value;
         return true;
     }
     return false;
@@ -79,33 +85,36 @@ int main(int argc, char *argv[])
     display.clear();
 
     //set buttons to input
-    gpioSetMode(2,PI_INPUT);
-    gpioSetMode(3,PI_INPUT);
+    gpioSetMode(2,PI_INPUT); //power
+    gpioSetMode(3,PI_INPUT); //color
+    gpioSetMode(4,PI_INPUT); //source
 
     Mpd mpd;
     mpd.play();
 
-    int modes[2] = {PI_HIGH,PI_HIGH};
+    int modes[3] = {PI_HIGH,PI_HIGH, PI_HIGH};
     buttonDetect(modes);
 
     short preset = 0;
     while(1)
     {
         //btnMon
-        if(false)//source
+        if(modes[2]==PI_LOW)//source
         {
             mpd.pause();
             display.setLine(2);
             display.writeString("      BlueTooth");
             display.SetRGB(display.presets[Display::blue]);
-            while(true)
+            Ir.setBT();
+            while(modes[2]==PI_LOW)
             {
                 usleep(500);
+                buttonDetect(modes);
             }
+            Ir.setPi();
             mpd.play();
             display.clear();
             display.SetRGB(display.presets[Display::firefly]);
-            Ir.setBT();
         }
         //power
         if(modes[0] == PI_LOW){
