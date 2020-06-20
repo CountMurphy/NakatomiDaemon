@@ -13,7 +13,13 @@ static bool buttonDetect(int modes[])
     int value = gpioRead(2); //power
     if (value != modes[0])
     {
-        modes[0]=value;
+        //modes[0]=value;
+        return true;
+    }
+    value = gpioRead(3); //color
+    if (value != modes[1])
+    {
+        modes[1]=value;
         return true;
     }
     return false;
@@ -74,12 +80,15 @@ int main(int argc, char *argv[])
 
     //set buttons to input
     gpioSetMode(2,PI_INPUT);
+    gpioSetMode(3,PI_INPUT);
 
     Mpd mpd;
     mpd.play();
 
-    int modes[1];
+    int modes[2] = {PI_HIGH,PI_HIGH};
     buttonDetect(modes);
+
+    short preset = 0;
     while(1)
     {
         //btnMon
@@ -108,39 +117,48 @@ int main(int argc, char *argv[])
             display.writeString("space cowboy...");
             return 0;
         }
-      std::string lastSong;
-      Mpd::song songInfo = mpd.getSongInfo();
-      display.writeString(songInfo.title);
-      lastSong = songInfo.title;
-      display.setLine(2);
-      display.writeString(songInfo.artist);
-      display.setLine(3);
-      display.writeString(songInfo.album);
-      short blockLevel=-1;
-      short lastLoad = -1;
-      while(true)
-      {
-          //btnMon()
-          if(buttonDetect(modes))
-          {
-              break;
-          }
-          blockLevel = mpd.getPlayPercentBlock();
-          if(blockLevel<lastLoad && blockLevel==0)
-              break;
-          //if track changes at 0%, daemon fucks up
-          if(blockLevel==0)
-          {
-              songInfo = mpd.getSongInfo();
-              if(lastSong != songInfo.title)
-                  break;
-          }
-          lastLoad=blockLevel;
-          display.setLine(4);
-          display.writeBlockChar(blockLevel);
-      }
-      display.clear();
-      sleep(1);
+
+        //color change
+        if(modes[1] == PI_LOW)
+        {
+            display.SetRGB(display.presets[preset]);
+            preset < 10? preset++:preset=0;
+        }
+        std::string lastSong;
+        Mpd::song songInfo = mpd.getSongInfo();
+        display.writeString(songInfo.title);
+        lastSong = songInfo.title;
+        display.setLine(2);
+        display.writeString(songInfo.artist);
+        display.setLine(3);
+        display.writeString(songInfo.album);
+        short blockLevel=-1;
+        short lastLoad = -1;
+        while(true)
+        {
+            //btnMon()
+            if(buttonDetect(modes))
+            {
+                break;
+            }
+            blockLevel = mpd.getPlayPercentBlock();
+            if(blockLevel<lastLoad && blockLevel==0)
+                break;
+            //if track changes at 0%, daemon fucks up
+            if(blockLevel==0)
+            {
+                songInfo = mpd.getSongInfo();
+                if(lastSong != songInfo.title)
+                    break;
+            }
+            lastLoad=blockLevel;
+            display.setLine(4);
+            display.writeBlockChar(blockLevel);
+        }
+        if(modes[1]==PI_LOW)
+            continue;
+        display.clear();
+        sleep(1);
     }
     ////await knob turn to launch
 
