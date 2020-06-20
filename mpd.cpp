@@ -27,6 +27,16 @@ void Mpd::pause()
     mpd_run_pause(conn,true);
 }
 
+bool Mpd::isPlaying()
+{
+    mpd_status * servStatus = NULL;
+    mpd_send_status(conn);
+    servStatus = mpd_recv_status(conn);
+    mpd_state current_status = mpd_status_get_state(servStatus);
+    mpd_response_finish(conn);
+    return current_status==MPD_STATE_PAUSE;
+}
+
 
 
 short Mpd::getPlayPercentBlock()

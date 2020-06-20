@@ -25,7 +25,13 @@ static bool buttonDetect(int modes[])
     value = gpioRead(4); //source
     if (value != modes[2])
     {
-        modes[2]=value;
+        //modes[2]=value;
+        return true;
+    }
+    value = gpioRead(26); //play/pause
+    if (value != modes[3])
+    {
+        modes[3]=value;
         return true;
     }
     return false;
@@ -88,11 +94,12 @@ int main(int argc, char *argv[])
     gpioSetMode(2,PI_INPUT); //power
     gpioSetMode(3,PI_INPUT); //color
     gpioSetMode(4,PI_INPUT); //source
+    gpioSetMode(26,PI_INPUT); //play/pause
 
     Mpd mpd;
     mpd.play();
 
-    int modes[3] = {PI_HIGH,PI_HIGH, PI_HIGH};
+    int modes[4] = {PI_HIGH,PI_HIGH, PI_HIGH, PI_HIGH};
     buttonDetect(modes);
 
     short preset = 0;
@@ -133,6 +140,15 @@ int main(int argc, char *argv[])
             display.SetRGB(display.presets[preset]);
             preset < 10? preset++:preset=0;
         }
+        //play/pause
+        if(modes[3]==PI_LOW)
+        {
+            if(mpd.isPlaying())
+                mpd.play();
+            else
+                mpd.pause();
+        }
+
         std::string lastSong;
         Mpd::song songInfo = mpd.getSongInfo();
         display.writeString(songInfo.title);
@@ -164,7 +180,7 @@ int main(int argc, char *argv[])
             display.setLine(4);
             display.writeBlockChar(blockLevel);
         }
-        if(modes[1]==PI_LOW)
+        if(modes[1]==PI_LOW || modes[3]==PI_LOW)
             continue;
         display.clear();
         sleep(1);

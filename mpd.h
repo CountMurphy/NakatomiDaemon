@@ -16,6 +16,7 @@ class Mpd
         short getPlayPercentBlock();
         void play();
         void pause();
+        bool isPlaying();
         Mpd(){
             conn = mpd_connection_new(NULL, 0, 0);
         }
