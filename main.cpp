@@ -8,6 +8,16 @@
 #include "display.h"
 #include "mpd.h"
 
+static bool buttonDetect(int modes[])
+{
+    int value = gpioRead(2); //power
+    if (value != modes[0])
+    {
+        modes[0]=value;
+        return true;
+    }
+    return false;
+}
 
 int main(int argc, char *argv[])
 {
@@ -50,6 +60,7 @@ int main(int argc, char *argv[])
 
     IRBlaster Ir;
     Ir.init();
+
     Display display;
     display.init();
     display.clear();
@@ -61,9 +72,42 @@ int main(int argc, char *argv[])
     sleep(5);
     display.clear();
 
+    //set buttons to input
+    gpioSetMode(2,PI_INPUT);
+
     Mpd mpd;
+    mpd.play();
+
+    int modes[1];
+    buttonDetect(modes);
     while(1)
     {
+        //btnMon
+        if(false)//source
+        {
+            mpd.pause();
+            display.setLine(2);
+            display.writeString("      BlueTooth");
+            display.SetRGB(display.presets[Display::blue]);
+            while(true)
+            {
+                usleep(500);
+            }
+            mpd.play();
+            display.clear();
+            display.SetRGB(display.presets[Display::firefly]);
+            Ir.setBT();
+        }
+        //power
+        if(modes[0] == PI_LOW){
+            mpd.pause();
+            display.clear();
+            sleep(1);
+            display.writeString("See you");
+            display.setLine(2);
+            display.writeString("space cowboy...");
+            return 0;
+        }
       std::string lastSong;
       Mpd::song songInfo = mpd.getSongInfo();
       display.writeString(songInfo.title);
@@ -76,6 +120,11 @@ int main(int argc, char *argv[])
       short lastLoad = -1;
       while(true)
       {
+          //btnMon()
+          if(buttonDetect(modes))
+          {
+              break;
+          }
           blockLevel = mpd.getPlayPercentBlock();
           if(blockLevel<lastLoad && blockLevel==0)
               break;

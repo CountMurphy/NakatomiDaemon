@@ -14,6 +14,8 @@ class Mpd
         };
         song getSongInfo();
         short getPlayPercentBlock();
+        void play();
+        void pause();
         Mpd(){
             conn = mpd_connection_new(NULL, 0, 0);
         }

@@ -17,6 +17,18 @@ Mpd::song Mpd::getSongInfo()
     return retVal;
 }
 
+void Mpd::play()
+{
+    mpd_run_play(conn);
+}
+
+void Mpd::pause()
+{
+    mpd_run_pause(conn,true);
+}
+
+
+
 short Mpd::getPlayPercentBlock()
 {
     mpd_status *status = mpd_run_status(conn);
