@@ -13,19 +13,19 @@ static bool buttonDetect(int modes[])
     int value = gpioRead(2); //power
     if (value != modes[0])
     {
-        //modes[0]=value;
+        modes[0]=value;
         return true;
     }
     value = gpioRead(3); //color
     if (value != modes[1])
     {
-        //modes[1]=value;
+        modes[1]=value;
         return true;
     }
     value = gpioRead(4); //source
     if (value != modes[2])
     {
-        //modes[2]=value;
+        modes[2]=value;
         return true;
     }
     value = gpioRead(26); //play/pause
