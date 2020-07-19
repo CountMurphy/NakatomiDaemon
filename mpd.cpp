@@ -11,9 +11,9 @@ Mpd::song Mpd::getSongInfo()
     const char* album = mpd_song_get_tag(msong, MPD_TAG_ALBUM, 0);
     mpd_response_finish(conn);
     Mpd::song retVal;
-    retVal.title=title;
-    retVal.artist=artist;
-    retVal.album=album;
+    retVal.title=title == NULL ? "" : title;
+    retVal.artist=artist == NULL ? "" : artist;
+    retVal.album=album == NULL ? "" : album;
     return retVal;
 }
 
