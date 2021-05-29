@@ -1043,8 +1043,8 @@ void Display::dictionary(char character, int retVal[])
             retVal[7] = 0;
             break;
         case 'z':
-            retVal[0] = 1;
-            retVal[1] = 0;
+            retVal[0] = 0;
+            retVal[1] = 1;
             retVal[2] = 0;
             retVal[3] = 1;
             retVal[4] = 1;
@@ -1053,8 +1053,8 @@ void Display::dictionary(char character, int retVal[])
             retVal[7] = 0;
             break;
         case 'Z':
-            retVal[0] = 1;
-            retVal[1] = 0;
+            retVal[0] = 0;
+            retVal[1] = 1;
             retVal[2] = 0;
             retVal[3] = 1;
             retVal[4] = 1;

@@ -17,6 +17,7 @@ Mpd::song Mpd::getSongInfo()
         const char* title = mpd_song_get_tag(msong, MPD_TAG_TITLE, 0);
         const char* artist = mpd_song_get_tag(msong, MPD_TAG_ARTIST, 0);
         const char* album = mpd_song_get_tag(msong, MPD_TAG_ALBUM, 0);
+        mpd_song_free(msong);
         mpd_response_finish(conn);
         retVal.title=title == NULL ? "" : title;
         retVal.artist=artist == NULL ? "" : artist;
@@ -42,6 +43,7 @@ bool Mpd::isPlaying()
     servStatus = mpd_recv_status(conn);
     mpd_state current_status = mpd_status_get_state(servStatus);
     mpd_response_finish(conn);
+    mpd_status_free(servStatus);
     return current_status==MPD_STATE_PAUSE;
 }
 
@@ -57,6 +59,8 @@ short Mpd::getPlayPercentBlock()
         return 0;
     int length = mpd_song_get_duration(msong);
     mpd_response_finish(conn);
+    mpd_status_free(status);
+    mpd_song_free(msong);
     return (((float)pos/(float)length)*100>=97) ? 20:((int)((float)pos/((float)length)*100))/5;
 }
 

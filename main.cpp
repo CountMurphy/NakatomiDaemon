@@ -103,6 +103,10 @@ int main(int argc, char *argv[])
     buttonDetect(modes);
 
     short preset = 0;
+    std::string lastSong;
+    Mpd::song songInfo; 
+    short blockLevel=-1;
+    short lastLoad = -1;
     while(1)
     {
         //btnMon
@@ -149,16 +153,15 @@ int main(int argc, char *argv[])
                 mpd.pause();
         }
 
-        std::string lastSong;
-        Mpd::song songInfo = mpd.getSongInfo();
+        songInfo = mpd.getSongInfo();
         display.writeString(songInfo.title);
         lastSong = songInfo.title;
         display.setLine(2);
         display.writeString(songInfo.artist);
         display.setLine(3);
         display.writeString(songInfo.album);
-        short blockLevel=-1;
-        short lastLoad = -1;
+        blockLevel=-1;
+        lastLoad = -1;
         while(true)
         {
             //btnMon()
