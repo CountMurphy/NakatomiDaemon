@@ -17,11 +17,11 @@ Mpd::song Mpd::getSongInfo()
         const char* title = mpd_song_get_tag(msong, MPD_TAG_TITLE, 0);
         const char* artist = mpd_song_get_tag(msong, MPD_TAG_ARTIST, 0);
         const char* album = mpd_song_get_tag(msong, MPD_TAG_ALBUM, 0);
-        mpd_song_free(msong);
         mpd_response_finish(conn);
         retVal.title=title == NULL ? "" : title;
         retVal.artist=artist == NULL ? "" : artist;
         retVal.album=album == NULL ? "" : album;
+        mpd_song_free(msong);
     }
     return retVal;
 }
