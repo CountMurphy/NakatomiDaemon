@@ -28,7 +28,13 @@ Mpd::song Mpd::getSongInfo()
 
 void Mpd::play()
 {
-    mpd_run_play(conn);
+    //Connections close after inactivity. Check it first
+    if(!mpd_run_play(conn))
+    {
+        mpd_connection_free(conn);
+        conn = mpd_connection_new(NULL, 0, 0);
+        mpd_run_play(conn);
+    }
 }
 
 void Mpd::pause()
