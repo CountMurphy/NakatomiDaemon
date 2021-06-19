@@ -83,11 +83,19 @@ int main(int argc, char *argv[])
     display.init();
     display.clear();
     sleep(1);
+    display.setLine(1);
+    display.writeString("        OK");
     display.setLine(2);
-    display.writeString("       Sarif");
+    sleep(1);
+    display.writeString("    3");
+    usleep(500000);
+    display.writeString("    2");
+    usleep(500000);
+    display.writeString("    1");
+    usleep(500000);
     display.setLine(3);
-    display.writeString("     Industries");
-    sleep(5);
+    display.writeString("     Lets Jam");
+    sleep(1);
     display.clear();
 
     //set buttons to input
